@@ -19,7 +19,7 @@ app.use(express.json());
 
 app.use("/api/user", userRoutes);
 
-app.post("/webhook", (req, res) => {
+app.post("/messaging-webhook", (req, res) => {
   let body = req.body;
   console.log(req.body);
 
@@ -43,24 +43,13 @@ app.get("/messaging-webhook", (req, res) => {
   let mode = req.query["hub.mode"];
   let token = req.query["hub.verify_token"];
   let challenge = req.query["hub.challenge"];
-  console.log("1");
-
-  // Check if a token and mode is in the query string of the request
   if (mode && token) {
-    console.log("2");
-
-    // Check the mode and token sent is correct
     if (mode === "subscribe" && token === process.env.USER_ACCESS_TOKEN) {
-      // Respond with the challenge token from the request
-      console.log("3");
-
       console.log("WEBHOOK_VERIFIED");
       res.status(200).send(challenge);
       console.log("4");
     } else {
-      // Respond with '403 Forbidden' if verify tokens do not match
       res.sendStatus(403);
-      console.log("5");
     }
   }
 });
