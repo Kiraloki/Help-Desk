@@ -39,6 +39,7 @@ app.post("/webhook", (req, res) => {
 
 app.get("/webhook", (req, res) => {
   // Parse the query params
+  console.log(req);
   let mode = req.query["hub.mode"];
   let token = req.query["hub.verify_token"];
   let challenge = req.query["hub.challenge"];
@@ -49,11 +50,7 @@ app.get("/webhook", (req, res) => {
     console.log("2");
 
     // Check the mode and token sent is correct
-    if (
-      mode === "subscribe" &&
-      token ===
-        "EAALd9UmURjkBO6tBejsd3sq9eJFZATOkZBgBcRhLE2RmFJ3m8PrJBzZBGSD2F2y6O5J2ToKWQO7hHmxix6UCEhCMwoISmt8DVwUq34DwqFswI87hBZCZCPDx1oNSxEI4WQZCLIvTiEHV27WiWBy7zZBCTFRXZB7z79MLIHgUHs7LJiUgrZByLz89xpYYS2hCbdlgJTs4GiSTaIZA6FpbrM1tj6gejRQZCx67X5ffB4ZD"
-    ) {
+    if (mode === "subscribe" && token === process.env.USER_ACCESS_TOKEN) {
       // Respond with the challenge token from the request
       console.log("3");
 
