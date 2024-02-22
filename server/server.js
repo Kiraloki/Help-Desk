@@ -2,12 +2,26 @@
 
 const express = require("express");
 const bodyParser = require("body-parser");
+const connectDB = require("./config/db");
+const dotenv = require("dotenv");
+const userRoutes = require("./routes/userRoutes");
+
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+const path = require("path");
+
 const { urlencoded, json } = require("body-parser");
 
-const app = express().use(bodyParser.json());
+dotenv.config();
+connectDB();
+const app = express();
+
+app.use(express.json());
+
+app.use("/api/user", userRoutes);
 
 app.post("/webhook", (req, res) => {
   let body = req.body;
+  console.log(req.body);
 
   console.log(`\u{1F7EA} Received webhook:`);
   console.dir(body, { depth: null });
@@ -73,4 +87,9 @@ function verifyRequestSignature(req, res, buf) {
   }
 }
 
-app.listen(4000);
+app.use(notFound);
+app.use(errorHandler);
+
+const PORT = process.env.PORT;
+
+app.listen(PORT);
