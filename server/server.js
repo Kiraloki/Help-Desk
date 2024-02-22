@@ -37,7 +37,7 @@ app.post("/webhook", (req, res) => {
   }
 });
 
-app.get("/webhook", (req, res) => {
+app.get("/messaging-webhook", (req, res) => {
   // Parse the query params
   console.log(req);
   let mode = req.query["hub.mode"];
