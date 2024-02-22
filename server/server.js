@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const connectDB = require("./config/db");
 const dotenv = require("dotenv");
+var cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
@@ -16,6 +17,7 @@ connectDB();
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.use("/api/user", userRoutes);
 
